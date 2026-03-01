@@ -59,7 +59,6 @@ export class WompiPaymentsService {
     );
 
     const merchantInfo = await this.fetchMerchantInfo(publicKey);
-    console.log('merchantInfo', merchantInfo);
     const acceptanceToken = this.readAcceptanceToken(merchantInfo);
 
     await this.ensurePendingPayment(order, {
