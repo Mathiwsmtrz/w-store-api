@@ -7,6 +7,7 @@ import { OrderDetailEntity } from '../../../infrastructure/orders/typeorm/entiti
 import { PaymentEntity } from '../../../infrastructure/payments/typeorm/entities/payment.entity';
 import { OrderStatus } from '../../../domain/orders/enums/order-status.enum';
 import { PaymentStatus } from '../../../domain/payments/enums/payment-status.enum';
+import { OrderMethod } from '../../../domain/orders/enums/order-method.enum';
 import { CustomersService } from '../../customers/services/customers.service';
 import { ProductsService } from '../../products/services/products.service';
 
@@ -105,10 +106,19 @@ export class OrdersService {
       }
       await runner.manager.save(details);
 
-      if (dto.paymentRefCode) {
+      if (dto.method === OrderMethod.WOMPI) {
+        const payment = runner.manager.create(PaymentEntity, {
+          order: savedOrder,
+          paymentRefCode: savedOrder.code,
+          provider: 'WOMPI',
+          status: PaymentStatus.PENDING,
+        });
+        await runner.manager.save(payment);
+      } else if (dto.paymentRefCode) {
         const payment = runner.manager.create(PaymentEntity, {
           order: savedOrder,
           paymentRefCode: dto.paymentRefCode,
+          provider: 'COD',
           status: PaymentStatus.PENDING,
         });
         await runner.manager.save(payment);
