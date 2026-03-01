@@ -82,6 +82,7 @@ npm run test
 
 - `GET /api/v1/list-categories` - List categories.
 - `GET /api/v1/list-products?category=<slug|id>` - List products with optional category filter.
+- `GET /api/v1/product/:slug` - Get full product information by slug.
 - `POST /api/v1/new-order` - Create a new order with `PENDING_PAID` status.
 - `GET /api/v1/orders/:code` - Find an order by code and return order + customer + products + payments.
 

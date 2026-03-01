@@ -38,6 +38,19 @@ export class ProductsService {
     return qb.getMany();
   }
 
+  async getProductBySlug(slug: string) {
+    const product = await this.productRepo.findOne({
+      where: { slug },
+      relations: ['category'],
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with slug "${slug}" was not found`);
+    }
+
+    return product;
+  }
+
   async findProductsByIdsOrFail(
     productIds: number[],
     manager?: EntityManager,
