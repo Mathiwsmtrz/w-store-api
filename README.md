@@ -49,6 +49,15 @@ DB_USERNAME=postgres
 DB_PASSWORD=postgres
 DB_DATABASE=store_back
 DB_SYNCHRONIZE=false
+
+# Wompi integration (see WOMPI_ENVIRONMENTS.md in root)
+WOMPI_PUBLIC_KEY=
+WOMPI_PRIVATE_KEY=
+WOMPI_EVENTS_SECRET=
+WOMPI_INTEGRITY_SECRET=
+WOMPI_ENV=sandbox
+WOMPI_CURRENCY=COP
+WOMPI_API_BASE_URL=
 ```
 
 Connection priority:
@@ -71,6 +80,9 @@ npm run build
 # production (requires build)
 npm run start:prod
 
+# format
+npm run format
+
 # lint
 npm run lint
 
@@ -79,6 +91,12 @@ npm run test
 
 # tests with coverage
 npm run test:cov
+
+# tests in watch mode
+npm run test:watch
+
+# e2e tests
+npm run test:e2e
 ```
 
 ## Test Results
@@ -92,6 +110,8 @@ See [TEST_RESULTS.md](./TEST_RESULTS.md) for the latest test coverage report.
 - `GET /api/v1/product/:slug` - Get full product information by slug.
 - `POST /api/v1/new-order` - Create a new order with `PENDING_PAID` status.
 - `GET /api/v1/orders/:code` - Find an order by code and return order + customer + products + payments.
+- `POST /api/v1/payments/wompi/transaction` - Create Wompi transaction data for the payment widget.
+- `POST /api/v1/payments/wompi/webhook` - Receive Wompi webhook events.
 
 ## `new-order` Example
 
