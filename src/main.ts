@@ -23,6 +23,10 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
 
+  // Use CDN for Swagger UI assets - fixes 404 errors on Vercel serverless
+  const swaggerUiVersion = '5.31.0';
+  const swaggerCdnBase = `https://cdn.jsdelivr.net/npm/swagger-ui-dist@${swaggerUiVersion}`;
+
   const protectSwagger = (req: Request, res: Response, next: NextFunction) => {
     const unauthorized = () => {
       res.setHeader('WWW-Authenticate', 'Basic realm="Swagger Docs"');
@@ -52,7 +56,14 @@ async function bootstrap() {
 
   app.use('/docs', protectSwagger);
   app.use('/docs-json', protectSwagger);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('docs', app, document, {
+    customCssUrl: `${swaggerCdnBase}/swagger-ui.css`,
+    customJs: [
+      `${swaggerCdnBase}/swagger-ui-bundle.js`,
+      `${swaggerCdnBase}/swagger-ui-standalone-preset.js`,
+      './swagger-ui-init.js',
+    ],
+  });
 
   await app.listen(process.env.PORT ?? 80);
 }

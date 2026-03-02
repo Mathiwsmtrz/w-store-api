@@ -56,6 +56,13 @@ describe('main bootstrap', () => {
       'docs',
       appMock,
       expect.objectContaining({ openapi: '3.0.0' }),
+      expect.objectContaining({
+        customCssUrl: expect.stringContaining('swagger-ui.css'),
+        customJs: expect.arrayContaining([
+          expect.stringContaining('swagger-ui-bundle.js'),
+          expect.stringContaining('swagger-ui-standalone-preset.js'),
+        ]),
+      }),
     );
     expect(appMock.listen).toHaveBeenCalledWith(process.env.PORT ?? 80);
 
