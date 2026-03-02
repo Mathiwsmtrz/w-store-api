@@ -76,7 +76,14 @@ npm run lint
 
 # tests
 npm run test
+
+# tests with coverage
+npm run test:cov
 ```
+
+## Test Results
+
+See [TEST_RESULTS.md](./TEST_RESULTS.md) for the latest test coverage report.
 
 ## Main Endpoints
 
